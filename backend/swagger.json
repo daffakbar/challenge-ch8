@@ -1,0 +1,322 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a game api player",
+    "version": "1.0.0",
+    "title": "API Game Traditional",
+    "termsOfService": "http://gametraditional.io/terms/",
+    "contact": {
+      "email": "gametraditional@game.io"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "gametraditional.io",
+  "basePath": "/v2",
+  "tags": [
+    {
+      "name": "Player",
+      "description": "Operations about player"
+    }
+  ],
+  "schemes": ["https", "http"],
+  "paths": {
+    "/player": {
+      "post": {
+        "tags": ["player"],
+        "summary": "Create new player",
+        "description": "add new player",
+        "operationId": "createPlayer",
+        "produces": ["application/xml", "application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "SUCCESS"
+          },
+          "400": {
+            "description": "username or email or password field cannot be empty."
+          },
+          "500": {
+            "description": "Some error occurred while creating the Player."
+          }
+        }
+      },
+      "get": {
+        "tags": ["player"],
+        "summary": "Get All player",
+        "description": "Get All player",
+        "operationId": "getPlayer",
+        "produces": ["application/xml", "application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Player"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "201": {
+              "description": "SUCCESS"
+            },
+            "500": {
+              "description": "Some error occurred while creating the Player."
+            }
+          }
+        }
+      }
+    },
+    "/player/{id}": {
+      "get": {
+        "tags": ["player"],
+        "summary": "Find a single Player with an id",
+        "description": "Find By Id player",
+        "operationId": "findByIdPlayer",
+        "produces": ["application/xml", "application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The name that needs to be fetched. Use user1 for testing. ",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "$ref": "#/definitions/Message"
+            }
+          },
+          "500": {
+            "description": "Error retrieving Player with id"
+          }
+        }
+      },
+      "put": {
+        "tags": ["player"],
+        "summary": "Update a Player by the id in the request",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "updateplayer",
+        "produces": ["application/xml", "application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/MessagePut"
+            }
+          },
+          "400": {
+            "description": "Cannot update Player with id=${id}. Maybe Player was not found or req.body is empty!"
+          },
+          "500": {
+            "description": "Error updating Player with id"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["player"],
+        "summary": "Delete a Player with id",
+        "description": "This can only be done by the logged in user.",
+        "operationId": "deletePlayerr",
+        "produces": ["application/xml", "application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/MessageDelete"
+            }
+          },
+          "400": {
+            "description": "Cannot delete Player with id Maybe Player was not found!  "
+          },
+          "500": {
+            "description": "Could not delete Player with id"
+          }
+        }
+      }
+    },
+    "/player/exp/{id}": {
+      "post": {
+        "tags": ["player"],
+        "summary": "Add player experience by certain amount",
+        "description": "Add player experience by certain amount",
+        "operationId": "createExpPlayer",
+        "produces": ["application/xml", "application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "name that need to be updated",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Player"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Player with id has more experience"
+          },
+          "400": {
+            "description": "exp field cannot be empty."
+          },
+          "500": {
+            "description": "Error updating Player exp with id."
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "api_key",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "Player": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "username": {
+          "type": "string",
+          "example": "daffa123"
+        },
+        "email": {
+          "type": "string",
+          "example": "daffa@mail.com"
+        },
+        "password": {
+          "type": "string",
+          "example": "@r32rdf2@456%6422#@*3"
+        },
+        "experience": {
+          "type": "integer",
+          "format": "int32",
+          "example": 90
+        },
+        "lvl": {
+          "type": "integer",
+          "format": "int32",
+          "example": 10,
+          "description": "User level"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "xml": {
+        "name": "Player"
+      }
+    },
+    "Message": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "example": "SUCCESS"
+        },
+        "message": {
+          "$ref": "#/definitions/Player"
+        }
+      },
+      "xml": {
+        "name": "Player"
+      }
+    },
+    "MessagePut": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "example": "SUCCESS"
+        },
+        "message": {
+          "example": "Player was updated successfully"
+        }
+      },
+      "xml": {
+        "name": "Player"
+      }
+    },
+    "MessageDelete": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "example": "SUCCESS"
+        },
+        "message": {
+          "example": "Player was deleted successfully!"
+        }
+      },
+      "xml": {
+        "name": "Player"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
